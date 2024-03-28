@@ -1,5 +1,5 @@
 ##HOW TO RUN
- - Download the folder with all of the files
+ - Download the all of the files and place into a folder
  - In Chrome, click on the extensions button to the right of the URL field
  - Click manage extensions, load unpacked, and select the folder with the js. files in it
 

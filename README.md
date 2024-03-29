@@ -1,9 +1,9 @@
-##HOW TO RUN
+## HOW TO RUN
  - Download the all of the files and place into a folder
  - In Chrome, click on the extensions button to the right of the URL field
  - Click manage extensions, load unpacked, and select the folder with the js. files in it
 
-##THINGS TO DO
+## THINGS TO DO
  - Privacy parser - 2 people?
  - UI for pop-up
  - Opt-out script

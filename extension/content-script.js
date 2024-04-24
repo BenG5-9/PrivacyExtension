@@ -16,6 +16,7 @@ $.ajax({
     url: "http://localhost:8000/",
     data: JSON.stringify({url:curr_url}),
     success: callback,
+    error: (error)=>{console.log("Backend failed: " + error)},
     async:false
 });
 

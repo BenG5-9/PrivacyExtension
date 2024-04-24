@@ -9,3 +9,8 @@
  - Privacy parser - 2 people?
  - UI for pop-up
  - Opt-out script
+
+## OPT-OUT SCRIPT
+- Must be a tester for the gmail api for the project
+- must run pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+- Currently only Ben's account is connected to the script

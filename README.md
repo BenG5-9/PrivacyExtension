@@ -3,6 +3,7 @@
 ## Required python libraries
 - flask
 - flask_cors
+- bs4
 
 ## HOW TO RUN
  - Download the all of the files and place into a folder

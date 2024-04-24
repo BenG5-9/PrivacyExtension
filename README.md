@@ -1,3 +1,9 @@
+# Privacy Extension
+
+## Required python libraries
+- flask
+- flask_cors
+
 ## HOW TO RUN
  - Download the all of the files and place into a folder
  - In Chrome, click on the extensions button to the right of the URL field

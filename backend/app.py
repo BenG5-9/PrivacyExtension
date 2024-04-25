@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from extract_policy import extract_policy
 from flask_cors import CORS
+from AI import run_ai
 
 app = Flask(__name__)
 CORS(app)
@@ -16,6 +17,8 @@ def index():
         policy = extract_policy(url)
 
         # Alan processes policy using the power of AI
+        sample = run_ai(policy)
+        print(sample)
 
         # return modified data to be posted to the extension
         return extract_policy(url)

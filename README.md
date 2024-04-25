@@ -5,6 +5,8 @@ CMSC 491 Data Privacy
 1. `pip install -v flask`
 2. `pip install -v flask_cors`
 3. `pip install -v bs4`
+4. `pip install openai`
+5. `pip install dotenv`
 
 ## HOW TO RUN
  - Download the all of the files and place into a folder
@@ -22,3 +24,6 @@ CMSC 491 Data Privacy
 - Must be a tester for the gmail api for the project
 - must run `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib`
 - Currently only Ben's account is connected to the script
+
+## References
+- OpenAI API : https://platform.openai.com/docs/quickstart?lang=ChatCompletions 

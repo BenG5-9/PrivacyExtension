@@ -1,10 +1,11 @@
 from flask import Flask, jsonify, request
 from extract_policy import extract_policy
 from flask_cors import CORS
-from AI import run_ai
+# from AI import run_ai
 
 app = Flask(__name__)
 CORS(app)
+sample = "none"
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
@@ -17,15 +18,18 @@ def index():
         policy = extract_policy(url)
 
         # Alan processes policy using the power of AI
-        sample = run_ai(policy)
-        print(sample)
+        if policy != "No policy found":
+
+            sample = policy
+            print(sample)
+            return sample
 
         # return modified data to be posted to the extension
-        return extract_policy(url)
+        return policy
     
     else:
 
-        return "invalid request"
+        return sample
 
 if __name__ == "__main__":
     app.run(port=8000)

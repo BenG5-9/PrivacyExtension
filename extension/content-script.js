@@ -1,24 +1,36 @@
-
 var curr_url = window.location.toString();
 
-function callback(data)
-{
-    // This will eventually be the processed data
-    console.log(data);
-}
+chrome.runtime.sendMessage({
+    from: 'content',
+    subject: 'PolicyExtraction',
+  });
+  
+// listen
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
+  // validation
+  if ((msg.from === 'popup') && (msg.subject === 'GetPolicy')) {
+    
+  // get the policy
 
-$.ajax({
-    type: "POST",
-    headers: { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json' 
-    },
-    url: "http://localhost:8000/",
-    data: JSON.stringify({url:curr_url}),
-    success: callback,
-    error: (error)=>{console.log("Backend failed: " + error)},
-    async:false
+  $.ajax({
+      type: "POST",
+      headers: { 
+          'Accept': 'application/json',
+          'Content-Type': 'application/json' 
+      },
+      url: "http://localhost:8000/",
+      data: JSON.stringify({url:curr_url}),
+      success: (data)=>response(data), // send the policy on completion
+      error: (error)=>{console.log("Backend failed: " + error)},
+      async:false
+  });
+    
+  }
 });
+
+
+
+
 
 
 // JAVASCRIPT IMPLEMENTATION

@@ -4,12 +4,21 @@ var policySummary = "none";
 
 console.log("run");
 
-while(policySummary == "none")
-{
-  $.get("http://localhost:8000/", (resp) => {
-  })
-  .done((resp)=>{console.log("Retrieval: " + resp)
-    text.innerHTML = resp;})
-  .fail((resp)=>{policySummary="No backend running.";text.innerHTML = policySummary;});
-  break;
+const setText = data => {
+    text.innerHTML = data;
 }
+
+// on load
+window.addEventListener('DOMContentLoaded', () => {
+    // get active tab
+    chrome.tabs.query({
+      active: true,
+      currentWindow: true
+    }, tabs => {
+      //
+      chrome.tabs.sendMessage(
+          tabs[0].id,
+          {from: 'popup', subject: 'GetPolicy'},
+          setText); // pass call back to content script
+    });
+  });

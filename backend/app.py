@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, session
 from extract_policy import extract_policy
 from flask_cors import CORS
-from AI import run_ai
+from AI import getSummary, getOptOut
 
 app = Flask(__name__)
 CORS(app)
@@ -19,8 +19,8 @@ def index():
         # Alan processes policy using the power of AI
         if policy != "No policy found":
 
-            sample = run_ai(policy)
-            return sample
+            summary = getSummary(policy)
+            return summary
 
         # return modified data to be posted to the extension
         return policy

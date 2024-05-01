@@ -23,15 +23,13 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
       },
       url: "http://localhost:8000/",
       data: JSON.stringify({url:curr_url}),
-      success: (data)=>response(data), // send the policy on completion
+      success: (data)=>curr_policy=data, // send the policy on completion
       error: (error)=>{console.log("Backend failed: " + error)},
       async:false
   });
   }
-  else
-  {
-    response(curr_policy);
-  }
+  
+  response(curr_policy);
   
     
   }

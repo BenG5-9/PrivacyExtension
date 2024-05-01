@@ -1,4 +1,5 @@
 var curr_url = window.location.toString();
+var curr_policy = "none";
 
 chrome.runtime.sendMessage({
     from: 'content',
@@ -12,7 +13,9 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     
   // get the policy
 
-  $.ajax({
+  if(curr_policy == "none")
+  {
+    $.ajax({
       type: "POST",
       headers: { 
           'Accept': 'application/json',
@@ -24,6 +27,12 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
       error: (error)=>{console.log("Backend failed: " + error)},
       async:false
   });
+  }
+  else
+  {
+    response(curr_policy);
+  }
+  
     
   }
 });

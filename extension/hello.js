@@ -10,6 +10,7 @@ const setText = data => {
 
 // on load
 window.addEventListener('DOMContentLoaded', () => {
+  
     // get active tab
     chrome.tabs.query({
       active: true,

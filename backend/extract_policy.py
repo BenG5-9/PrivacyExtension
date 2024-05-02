@@ -1,7 +1,10 @@
 
+import urllib.request
 from bs4 import BeautifulSoup
 import urllib
 from urllib.parse import urlsplit
+import brotli
+import gzip
 import re
 
 
@@ -65,9 +68,27 @@ def tag_lang(element):
 
 
 def get_to_policy(url):
+    print("url:", url)
+    hdr = {
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept-Language":"en-US,en;q=0.5",
+    "Accept-Encoding":"gzip, deflate, br, utf-8",
+    "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Referer":"http://www.google.com/"
+    }
     split_url = urlsplit(url)
+    req = urllib.request.Request(url, None, headers=hdr)
 
-    html = urllib.request.urlopen(url).read()
+    connect = urllib.request.urlopen(req)
+    html = connect.read()
+    connect.close()
+
+    print(connect.headers)
+    if(connect.headers["Content-Encoding"] == "br"):
+        html = brotli.decompress(html)
+    elif(connect.headers["Content-Encoding"] == "gzip"):
+        html = gzip.decompress(html)
+
     soup = BeautifulSoup(html, 'html.parser')
     anchors = soup.find_all('a', href=True)
     viable_links = list(filter(tag_policy, anchors))
@@ -109,6 +130,14 @@ def get_to_policy(url):
     # return curr_link
 
 def extract_policy(url):
+    hdr = {
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    "Accept-Language":"en-US,en;q=0.5",
+    "Accept-Encoding":"gzip, deflate, br, utf-8",
+    "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Referer":"http://www.google.com/"
+    }
+
     link = get_to_policy(url)
 
     if(link == "No policy found"):
@@ -116,7 +145,16 @@ def extract_policy(url):
 
     # return link
 
-    html = urllib.request.urlopen(link).read()
+    req = urllib.request.Request(url, None, headers=hdr)
+
+    connect = urllib.request.urlopen(req)
+    html = connect.read()
+    connect.close()
+
+    if(connect.headers["Content-Encoding"] == "br"):
+        html = brotli.decompress(html)
+    elif(connect.headers["Content-Encoding"] == "gzip"):
+        html = gzip.decompress(html)
     
     return text_from_html(html)
 

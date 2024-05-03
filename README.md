@@ -7,6 +7,7 @@ CMSC 491 Data Privacy
 3. `pip install -v bs4`
 4. 'pip install --upgrade openai'
 5. `pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib`
+6. pip install brotli
 
 ## HOW TO RUN
  - Download the all of the files and place into a folder

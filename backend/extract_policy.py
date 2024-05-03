@@ -24,12 +24,16 @@ def text_from_html(body):
 def reg_privacy(element):
     if re.search("privacy", element.text, re.IGNORECASE) is not None:
         return True
+    elif re.search("privacy", element.get('label', 'label'), re.IGNORECASE) is not None:
+        return True
     else:
         return False
     
 
 def reg_policy(element):
     if re.search("privacy", element.text,re.IGNORECASE) is not None and re.search("policy", element.text, re.IGNORECASE) is not None:
+        return True
+    elif re.search("privacy", element.get('label', 'label'), re.IGNORECASE) is not None and re.search("policy", element.get('label', 'label'), re.IGNORECASE) is not None:
         return True
     else:
         return False
@@ -72,7 +76,7 @@ def get_to_policy(url):
     hdr = {
     "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
     "Accept-Language":"en-US,en;q=0.5",
-    "Accept-Encoding":"gzip, deflate, br, utf-8",
+    "Accept-Encoding":"utf-8, gzip, deflate, br",
     "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
     "Referer":"http://www.google.com/"
     }
@@ -84,13 +88,14 @@ def get_to_policy(url):
     connect.close()
 
     print(connect.headers)
+
     if(connect.headers["Content-Encoding"] == "br"):
         html = brotli.decompress(html)
     elif(connect.headers["Content-Encoding"] == "gzip"):
         html = gzip.decompress(html)
 
     soup = BeautifulSoup(html, 'html.parser')
-    anchors = soup.find_all('a', href=True)
+    anchors = soup.find_all(['a', 'nl-button'], href=True)
     viable_links = list(filter(tag_policy, anchors))
     if len(viable_links) == 0:
         viable_links = list(filter(tag_privacy, anchors))
@@ -145,7 +150,7 @@ def extract_policy(url):
 
     # return link
 
-    req = urllib.request.Request(url, None, headers=hdr)
+    req = urllib.request.Request(link, None, headers=hdr)
 
     connect = urllib.request.urlopen(req)
     html = connect.read()

@@ -6,7 +6,7 @@
     "action": {
       "default_popup": "hello.html"
     },
-    "permissions": ["activeTab", "scripting"],
+    "permissions": ["activeTab", "scripting", "storage"],
     "content_scripts": [
         {
           "matches": ["<all_urls>"],

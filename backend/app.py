@@ -20,6 +20,7 @@ def index():
         if policy != "No policy found":
 
             summary = getSummary(policy)
+            # summary = "This is a summary"
             return summary
 
         # return modified data to be posted to the extension

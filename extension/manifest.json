@@ -4,7 +4,8 @@
     "description": "An extension for accessing summary of website's privacy policy!",
     "version": "1.0",
     "action": {
-      "default_popup": "hello.html"
+      "default_popup": "hello.html",
+      "default_icon" : "bens_logo.png"
     },
     "permissions": ["activeTab", "scripting", "storage"],
     "content_scripts": [

@@ -34,7 +34,7 @@ def connect_api():
 
   except HttpError as error:
     print(f"An error occurred: {error}")
-    return 0
+    return True
 
 def send_opt_out(to, body):
   """Create and send an email message

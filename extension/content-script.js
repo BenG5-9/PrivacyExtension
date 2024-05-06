@@ -1,24 +1,70 @@
-
 var curr_url = window.location.toString();
+var curr_policy = "none";
 
-function callback(data)
-{
-    // This will eventually be the processed data
-    console.log(data);
+chrome.runtime.sendMessage({
+    from: 'content',
+    subject: 'PolicyExtraction',
+  });
+  
+// listen
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
+  // validation
+  if ((msg.from === 'popup') && (msg.subject === 'GetPolicy')) {
+    
+  // get the policy
+
+  chrome.storage.local.get(["state"], (result)=>{
+    console.log(result);
+    if(Object.keys(result).length === 0)
+    {
+      $.ajax({
+        type: "POST",
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        },
+        url: "http://localhost:8000/",
+        data: JSON.stringify({url:curr_url}),
+        success: (data)=>{
+          curr_policy = data;
+          chrome.storage.local.set({state:{data:curr_policy, url:curr_url}}).then(()=>response(curr_policy));
+        }, // send the policy on completion
+        error: (error)=>{console.log("Backend failed to obtain policy");response("Backend failed to obtain policy")},
+        async:true
+      });
+      
+    }
+    else if(result.state.url != curr_url)
+    {
+      $.ajax({
+        type: "POST",
+        headers: { 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
+        },
+        url: "http://localhost:8000/",
+        data: JSON.stringify({url:curr_url}),
+        success: (data)=>{
+          curr_policy = data;
+          chrome.storage.local.set({state:{data:curr_policy, url:curr_url}}).then(()=>response(curr_policy));
+        }, // send the policy on completion
+        error: (error)=>{console.log("Backend failed to obtain policy");response("Backend failed to obtain policy")},
+        async:true
+      });
+    }
+    else
+    {
+      response(result.state.data);
+    }
+  });
+  
 }
-
-$.ajax({
-    type: "POST",
-    headers: { 
-        'Accept': 'application/json',
-        'Content-Type': 'application/json' 
-    },
-    url: "http://localhost:8000/",
-    data: JSON.stringify({url:curr_url}),
-    success: callback,
-    error: (error)=>{console.log("Backend failed: " + error)},
-    async:false
+return true;
 });
+
+
+
+
 
 
 // JAVASCRIPT IMPLEMENTATION

@@ -19,7 +19,7 @@ def getSummary(policy):
     messages=[
       # System-content: Specifications given to the AI bot
       # User-content: Privacy Policy that was pulled from extract_policy.py
-      {"role": "system", "content": "Given a string of words, find what info is being collected, what it might be used for, in a numbered list with few words as possible. Format output for HTML"},
+      {"role": "system", "content": "Given a string of words, find what info is being collected, what it might be used for, in a numbered list with few words as possible. Format output for HTML, without Head"},
       {"role": "user", "content": policy}
     ],
     temperature=1,
@@ -49,7 +49,7 @@ def getOptOut(policy):
     messages=[
       # System-content: Specifications given to the AI bot
       # User-content: Privacy Policy that was pulled from extract_policy.py
-      {"role": "system", "content": "Given a string of text, find the opt out email or process company"},
+      {"role": "system", "content": "Given a string of text, find the opt out email for the company if it has it. If not return none"},
       {"role": "user", "content": policy}
     ],
     temperature=1,
@@ -59,5 +59,6 @@ def getOptOut(policy):
     presence_penalty=0
   )
 
-
-  return response.choices[0].message.content
+  for word in response.choices[0].message.content.split():
+    if "@" in word:
+      return word

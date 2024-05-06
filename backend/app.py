@@ -20,6 +20,8 @@ def index():
         if policy != "No policy found":
 
             summary = getSummary(policy)
+            opt = getOptOut(policy)
+            print(opt)
             # summary = "This is a summary"
             return summary
 

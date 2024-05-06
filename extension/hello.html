@@ -3,29 +3,192 @@
 
 <head>
   <meta charset="UTF-8">
-
   <script src="./jquery.min.js" defer></script>
   <script src="./hello.js" defer></script>
+  <link rel="icon" type="image/x-icon" href="bens_logo.png">
 </head>
 
+
+<!-- We have four sections: THE PROJECT TITLE, SUMMARY HEADER, SUMMARY CONTENT BLOCK and THE FOOTNOTE -->
+
 <style>
+  /* www.w3schools.com/css/css3_variables.asp */
+  :root {
+    /* REGULAR MODE :: NOTES: BACKGROUND-COLOR is the color of the circle's background, --AUTHOR-BACKGROUND-COLOR would be BACKGROUND-COLOR */
+    --TITLE-COLOR: #ffffff;
+    --TITLE-BACKGROUND-COLOR: #00008b;
+
+    --BACKGROUND-COLOR: #1e90ff;
+
+    --SUMMARY-HEADER-COLOR: #005dbf;
+    --SUMMARY-HEADER-BACKGROUND-COLOR: #0b89ff;
+    --SUMMARY-HEADER-SHADOW-COLOR: #0980ff;
+
+    --SUMMARY-CONTENT-COLOR: #ffffff;
+    --SUMMARY-CONTENT-BACKGROUND-COLOR: #329afd;
+    --SUMMARY-CONTENT-SHADOW-COLOR: #218bfc;
+
+    --AUTHOR-COLOR: #ffffff;
+
+    /* DARK MODE: uncomment the following block to change the visual */
+    /* --TITLE-COLOR: white;
+    --TITLE-BACKGROUND-COLOR: black;
+
+    --BACKGROUND-COLOR: #252525;
+
+    --SUMMARY-HEADER-COLOR: darkgray;
+    --SUMMARY-HEADER-BACKGROUND-COLOR: #353535;
+    --SUMMARY-HEADER-SHADOW-COLOR: #232323;
+
+    --SUMMARY-CONTENT-COLOR: white;
+    --SUMMARY-CONTENT-BACKGROUND-COLOR: #232323;
+    --SUMMARY-CONTENT-SHADOW-COLOR: #353535;
+
+    --AUTHOR-COLOR: white; */
+
+
+    /* initially I had probably #0000ff */
+    --POPUP-WIDTH: 3.4in;
+    --POPUP-HEIGHT: 4.2in;
+    --CIRCLE-DIAMETER: 6.7in;
+    --CONTENT-ALIGN-SHIFT-VALUE: 1.65in;
+    /* The value is manually assigned, its wrong don't worry about this erroneous calculation.. CONTENT-ALIGN-SHIFT-VALUE: == (CIRCLE-DIAMETER - POPUP-WIDTH) - 0.5in [NOTE: 0.5 is total value due to padding] := 2.8in*/
+  }
+
+  /* define layout size of the extension pop-up*/
   html {
-    width: 4in;
-    height: 4in;
-    background-color: #9cc9ff;
-    color: #0000ff;
+    background-color: var(--BACKGROUND-COLOR);
+    width: var(--POPUP-WIDTH);
+    height: var(--POPUP-HEIGHT);
+  }
+
+  /* stackoverflow.com/a/77259167 */
+  *,
+  ::before,
+  ::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+
+  /* stackoverflow.com/a/36302429 */
+  .rectangle {
+    color: var(--TITLE-COLOR);
+    background-color: var(--TITLE-BACKGROUND-COLOR);
+    height: var(--POPUP-HEIGHT);
+    overflow: hidden;
+    /* hidden: cause we don't wanna scroll down */
+  }
+
+  /* stackoverflow.com/a/36302429 */
+  .circle {
+    border-radius: 50%;
+    width: var(--CIRCLE-DIAMETER);
+    height: var(--CIRCLE-DIAMETER);
+    background-color: var(--BACKGROUND-COLOR);
+    position: relative;
+    top: 50px;
+    right: var(--CONTENT-ALIGN-SHIFT-VALUE);
+    box-shadow: 0 0 0px 5px var(--BACKGROUND-COLOR);
+    border: 1.5px dashed var(--TITLE-BACKGROUND-COLOR);
+  }
+
+  .header_style {
+    font-size: medium;
+    position: relative;
+    bottom: 10px;
+  }
+
+  .content_box {
+    width: var(--POPUP-WIDTH);
+    margin-left: var(--CONTENT-ALIGN-SHIFT-VALUE);
+    font-weight: bold;
+    position: relative;
+    bottom: 40px;
+  }
+
+  /* values changed after logo added! NOTE: the `bottom` in header_style and `bottom` in content_box make up to 50px shift due to `top` in circle  */
+
+
+  .summary_head {
+    color: var(--SUMMARY-HEADER-COLOR);
+    background-color: var(--SUMMARY-HEADER-BACKGROUND-COLOR);
+    box-shadow: 0px 0px 0px 2px var(--SUMMARY-HEADER-SHADOW-COLOR);
+    text-align: center;
+    width: fit-content;
+    margin-left: 0.67in;
+    padding: 10px;
+    padding-bottom: 2px;
+    padding-top: 0;
+    border-radius: 20%;
+  }
+
+  .summary_box {
+    color: var(--SUMMARY-CONTENT-COLOR);
+    background-color: var(--SUMMARY-CONTENT-BACKGROUND-COLOR);
+    box-shadow: 1px 1px 1px 2px var(--SUMMARY-CONTENT-SHADOW-COLOR);
+    font-family: monospace;
+    font-weight: normal;
+    font-size: 9pt;
+    overflow-y: scroll;
+    height: 2.8in;
+    border-radius: 7%;
+    padding: 0.08in;
+    padding-right: 0;
+  }
+
+
+  .authors {
+    color: var(--AUTHOR-COLOR);
+    text-align: center;
+    font-weight: normal;
+    font-family: monospace;
+    position: relative;
+    top: 10px;
   }
 </style>
 
-  <body>
-    <h1 style="text-align: center;">
-      It's Privacy Companion v.01
-    </h1>
+<body>
 
-    <p id="text" style="font-weight: bold;overflow-y: scroll;height: 100%; width: 100%;">
-      Loading...
-    </p>
+  <!-- So basically We have HTML page and within it we have circle shape bounded in the rectangle shape, but we crop that rectangle to show only the defined height -->
+  <div class="rectangle">
+    <div class="circle">
+      <div class="content_box">
+        <!-- The title -->
+        <div class="header_style">
+          <p>
+            <img style="vertical-align: middle;" src="bens_logo.png" width="67">
+            Privacy Companion
+          </p>
+        </div>
 
-    
-  </body>
+        <!-- Header for the summary block -->
+        <div class="summary_head">
+          <p>
+            Summary
+          </p>
+        </div>
+
+        <!-- Content of the summary block -->
+        <div class="summary_box">
+          <p id="text">
+            Loading...
+          </p>
+        </div>
+
+        <!-- authors of the project -->
+        <div class="authors">
+          <p>
+            (2024) Alan, Ben, Landon, Welayat (alphabetically)
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</body>
+
 </html>

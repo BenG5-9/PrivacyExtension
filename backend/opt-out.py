@@ -7,15 +7,13 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# If modifying these scopes, delete the file token.json.
-SCOPES = ["https://www.googleapis.com/auth/gmail.writeonly"]
+# only need the mail scope
+SCOPES = ["https://mail.google.com/"]
 
 
 def connect_api():
   creds = None
-  # The file token.json stores the user's access and refresh tokens, and is
-  # created automatically when the authorization flow completes for the first
-  # time.
+  # token.json used to keep authentication. Create if one is not there
   if os.path.exists("token.json"):
     creds = Credentials.from_authorized_user_file("token.json", SCOPES)
   # If there are no (valid) credentials available, let the user log in.
@@ -27,32 +25,32 @@ def connect_api():
           "credentials.json", SCOPES #read from the ceated credentials
       )
       creds = flow.run_local_server(port=0)
-    # Save the credentials for the next run
+    # save the credentials
     with open("token.json", "w") as token:
       token.write(creds.to_json())
 
   try:
-    send_opt_out(creds)
+    return creds
 
   except HttpError as error:
-    # TODO(developer) - Handle errors from gmail API.
     print(f"An error occurred: {error}")
+    return 0
 
-def send_opt_out(creds):
+def send_opt_out(to, message):
   """Create and send an email message
   Print the returned  message id
   Returns: Message object, including message id
 """
 
   try:
+    creds = connect_api()
     service = build("gmail", "v1", credentials=creds)
     message = EmailMessage()
 
-    message.set_content("This is automated draft mail")
+    message.set_content(message)
 
-    message["To"] = "benguest23@gmail.com"
-    message["From"] = input("Please enter your email: ")
-    message["Subject"] = "Automated draft"
+    message["To"] = to
+    message["Subject"] = "Opt-out"
 
     # encoded message
     encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
@@ -70,7 +68,3 @@ def send_opt_out(creds):
     print(f"An error occurred: {error}")
     send_message = None
   return send_message
-
-
-if __name__ == "__main__":
-  connect_api()

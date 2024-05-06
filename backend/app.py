@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, session
 from extract_policy import extract_policy
+from opt_out import send_opt_out
 from flask_cors import CORS
 from AI import getSummary, getOptOut
 
@@ -22,6 +23,8 @@ def index():
             summary = getSummary(policy)
             opt = getOptOut(policy)
             print(opt)
+            if(opt != None):
+                send_opt_out(opt, "I wish to opt out of any optional data collection or processing")
             # summary = "This is a summary"
             return summary
 

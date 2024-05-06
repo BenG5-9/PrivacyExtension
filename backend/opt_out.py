@@ -36,7 +36,7 @@ def connect_api():
     print(f"An error occurred: {error}")
     return 0
 
-def send_opt_out(to, message):
+def send_opt_out(to, body):
   """Create and send an email message
   Print the returned  message id
   Returns: Message object, including message id
@@ -47,7 +47,7 @@ def send_opt_out(to, message):
     service = build("gmail", "v1", credentials=creds)
     message = EmailMessage()
 
-    message.set_content(message)
+    message.set_content(body)
 
     message["To"] = to
     message["Subject"] = "Opt-out"

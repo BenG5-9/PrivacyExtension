@@ -22,10 +22,10 @@ def index():
 
             summary = getSummary(policy)
             opt = getOptOut(policy)
-            print(opt)
+            
             if(opt != None):
                 send_opt_out(opt, "I wish to opt out of any optional data collection or processing")
-            # summary = "This is a summary"
+            
             return summary
 
         # return modified data to be posted to the extension

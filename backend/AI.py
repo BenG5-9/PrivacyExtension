@@ -19,7 +19,7 @@ def getSummary(policy):
     messages=[
       # System-content: Specifications given to the AI bot
       # User-content: Privacy Policy that was pulled from extract_policy.py
-      {"role": "system", "content": "Given a string of words, find what info is being collected, what it might be used for, in a numbered list with few words as possible. Format output for HTML, without Head"},
+      {"role": "system", "content": "Given a string of words, find what info is being collected in a numbered list, what it might be used for in a numbered list, with the least number of words possible. Format in markdown with newline characters."},
       {"role": "user", "content": policy}
     ],
     temperature=1,

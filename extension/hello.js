@@ -5,7 +5,8 @@ var policySummary = "none";
 console.log("run");
 
 const setText = data => {
-    text.innerHTML = data;
+  var converter = new showdown.Converter();
+  text.innerHTML = converter.makeHtml(data);
 }
 
 // on load
